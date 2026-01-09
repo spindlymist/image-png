@@ -51,6 +51,10 @@ impl<R: BufRead + Seek> ReadDecoder<R> {
     pub fn set_ignore_iccp_chunk(&mut self, ignore_iccp_chunk: bool) {
         self.decoder.set_ignore_iccp_chunk(ignore_iccp_chunk);
     }
+    
+    pub fn set_ignore_trns_chunk(&mut self, ignore_trns_chunk: bool) {
+        self.decoder.set_ignore_trns_chunk(ignore_trns_chunk);
+    }
 
     pub fn ignore_checksums(&mut self, ignore_checksums: bool) {
         self.decoder.set_ignore_adler32(ignore_checksums);

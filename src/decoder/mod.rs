@@ -278,6 +278,11 @@ impl<R: BufRead + Seek> Decoder<R> {
     pub fn set_ignore_iccp_chunk(&mut self, ignore_iccp_chunk: bool) {
         self.read_decoder.set_ignore_iccp_chunk(ignore_iccp_chunk);
     }
+    
+    /// Set the decoder to ignore tRNS chunks while parsing.
+    pub fn set_ignore_trns_chunk(&mut self, ignore_trns_chunk: bool) {
+        self.read_decoder.set_ignore_trns_chunk(ignore_trns_chunk);
+    }
 
     /// Set the decoder to ignore and not verify the Adler-32 checksum
     /// and CRC code.

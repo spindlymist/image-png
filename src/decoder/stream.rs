@@ -468,6 +468,7 @@ pub struct DecodeOptions {
     ignore_crc: bool,
     ignore_text_chunk: bool,
     ignore_iccp_chunk: bool,
+    ignore_trns_chunk: bool,
     skip_ancillary_crc_failures: bool,
 }
 
@@ -478,6 +479,7 @@ impl Default for DecodeOptions {
             ignore_crc: false,
             ignore_text_chunk: false,
             ignore_iccp_chunk: false,
+            ignore_trns_chunk: false,
             skip_ancillary_crc_failures: true,
         }
     }
@@ -517,6 +519,10 @@ impl DecodeOptions {
     /// Defaults to `false`.
     pub fn set_ignore_iccp_chunk(&mut self, ignore_iccp_chunk: bool) {
         self.ignore_iccp_chunk = ignore_iccp_chunk;
+    }
+    
+    pub fn set_ignore_trns_chunk(&mut self, ignore_trns_chunk: bool) {
+        self.ignore_trns_chunk = ignore_trns_chunk;
     }
 
     /// Ignore ancillary chunks if CRC fails
@@ -638,6 +644,10 @@ impl StreamingDecoder {
 
     pub fn set_ignore_iccp_chunk(&mut self, ignore_iccp_chunk: bool) {
         self.decode_options.set_ignore_iccp_chunk(ignore_iccp_chunk);
+    }
+    
+    pub fn set_ignore_trns_chunk(&mut self, ignore_trns_chunk: bool) {
+        self.decode_options.set_ignore_trns_chunk(ignore_trns_chunk);
     }
 
     /// Return whether the decoder is set to ignore the Adler-32 checksum.
@@ -1041,7 +1051,7 @@ impl StreamingDecoder {
             chunk::PLTE => 3..=768,
             chunk::IEND => 0..=0,
             chunk::sBIT => 1..=4,
-            chunk::tRNS => 1..=256,
+            chunk::tRNS if !self.decode_options.ignore_trns_chunk => 1..=256,
             chunk::pHYs => 9..=9,
             chunk::gAMA => 4..=4,
             chunk::acTL => 8..=8,
